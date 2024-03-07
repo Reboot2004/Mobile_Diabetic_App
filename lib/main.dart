@@ -13,7 +13,6 @@ import 'package:telephony_sms/telephony_sms.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 import 'login.dart';
 import 'register.dart';
-import 'dialog.dart';
 import 'email.dart';
 //import 'py.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

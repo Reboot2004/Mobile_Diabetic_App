@@ -305,277 +305,6 @@ bool Value = false;
       ),
     );
   }
-//   Future<void> _forgotUsernameProcedure(BuildContext context) async {
-//     TextEditingController emailController = TextEditingController();
-//
-//     // Prompt the user to enter their email
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text('Retrieve Username'),
-//           content: TextField(
-//             controller: emailController,
-//             decoration: const InputDecoration(
-//               hintText: 'Enter your registered email',
-//             ),
-//           ),
-//           actions: <Widget>[
-//             TextButton(
-//               onPressed: () async {
-//                 String email = emailController.text.trim();
-//
-//                 // Check if the email field is empty
-//                 if (email.isEmpty) {
-//                   ScaffoldMessenger.of(context).showSnackBar(
-//                     const SnackBar(content: Text("Email field is empty")),
-//                   );
-//                   return;
-//                 }
-//
-//                 final firestoreInstance = FirebaseFirestore.instance;
-//                 var userQuerySnapshot = await firestoreInstance.collection('users').where('email', isEqualTo: email).get();
-//
-//                 if (userQuerySnapshot.docs.isNotEmpty) {
-//                   // Assuming username is stored under 'username' field
-//                   var username = userQuerySnapshot.docs.first.data()['username'] as String;
-//
-//                   // Send the username to the user's email
-//                   bool emailSent = await sendUsernameEmail(email, username);
-//                   Navigator.of(context).pop(); // Close the dialog
-//
-//                   if(emailSent) {
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       const SnackBar(content: Text("Username has been sent to your email.")),
-//                     );
-//                   } else {
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       const SnackBar(content: Text("Failed to send email. Please try again.")),
-//                     );
-//                   }
-//                 } else {
-//                   ScaffoldMessenger.of(context).showSnackBar(
-//                     const SnackBar(content: Text("Email not found.")),
-//                   );
-//                 }
-//               },
-//               child: const Text('Submit'),
-//             ),
-//             TextButton(
-//               onPressed: () => Navigator.of(context).pop(), // Close the dialog without any action
-//               child: const Text('Cancel'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-//
-//   Future<bool> sendUsernameEmail(String email, String username) async {
-//     // Implement your email sending logic here
-//     // Return true if the email was sent successfully, false otherwise
-//     try {
-//       String username = 'twilio1725@gmail.com';
-//       String password1 = "\$wilio@!725"; // Your email password
-//
-//       final smtpServer = gmail(username, password1);
-//       final message = Message()
-//         ..from = Address(username, 'Your App Name')
-//         ..recipients.add(email)
-//         ..subject = 'Your Username Recovery'
-//         ..text = 'Your username is: $username';
-//
-//       await send(message, smtpServer);
-//       return true;
-//     } catch (e) {
-//       print('Failed to send email: $e');
-//       return false;
-//     }
-//   }
-//
-//   Future<void> _resetPasswordProcedure1(BuildContext context) async {
-//     // Assuming you have a TextEditingController for the email input
-//     String email = emailC.text.trim(); // Ensure emailC is defined in your class
-//
-//     // Check if the email field is empty
-//     if (email.isEmpty) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text("Email field is empty")),
-//       );
-//       return;
-//     }
-//
-//     final firestoreInstance = FirebaseFirestore.instance;
-//     var userDocument = await firestoreInstance.collection('users').where('email', isEqualTo: email).get();
-//
-//     // Check if user document exists
-//     if (userDocument.docs.isEmpty) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         const SnackBar(content: Text("Email not found")),
-//       );
-//       return;
-//     }
-//
-//     // Prompt the user to enter a new password and confirm it
-//     TextEditingController password1 = TextEditingController();
-//     TextEditingController password2 = TextEditingController();
-//
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: const Text('Reset Password'),
-//           content: Column(
-//             mainAxisSize: MainAxisSize.min,
-//             children: [
-//               TextField(
-//                 controller: password1,
-//                 decoration: const InputDecoration(
-//                   hintText: 'New Password',
-//                 ),
-//                 obscureText: true,
-//               ),
-//               TextField(
-//                 controller: password2,
-//                 decoration: const InputDecoration(
-//                   hintText: 'Confirm New Password',
-//                 ),
-//                 obscureText: true,
-//               ),
-//             ],
-//           ),
-//           actions: <Widget>[
-//             TextButton(
-//               onPressed: () async {
-//                 if (password1.text == password2.text) {
-//                   // Update password in Firestore
-//                   try {
-//                     String userId = userDocument.docs.first.id; // Assuming userId is the document ID
-//                     await firestoreInstance.collection('users').doc(userId).update({'password': password1.text});
-//
-//                     Navigator.of(context).pop(); // Close the dialog
-//
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       const SnackBar(content: Text("Password updated successfully")),
-//                     );
-//                   } catch (e) {
-//                     ScaffoldMessenger.of(context).showSnackBar(
-//                       SnackBar(content: Text("Failed to update password: $e")),
-//                     );
-//                   }
-//                 } else {
-//                   ScaffoldMessenger.of(context).showSnackBar(
-//                     const SnackBar(content: Text("Passwords do not match")),
-//                   );
-//                 }
-//               },
-//               child: const Text('Reset Password'),
-//             ),
-//             TextButton(
-//               onPressed: () => Navigator.of(context).pop(), // Close the dialog without any action
-//               child: const Text('Cancel'),
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
-//   Future<void> sendPasswordEmail(String userEmail) async {
-//     final firestoreInstance = FirebaseFirestore.instance;
-//     var userDocument = await firestoreInstance.collection('users').doc(userEmail).get();
-//
-//     if (userDocument.exists) {
-//       var password = userDocument.data()?['password'];
-//
-//       String username = 'knssriharshith11@gmail.com';
-//       String password1 = "XCOM@2023"; // Caution: Highly insecure
-//
-//       final smtpServer = gmail(username, password); // Configure for your email provider
-//
-//       final message = Message()
-//         ..from = Address(username, 'Your App Name')
-//         ..recipients.add(userEmail)
-//         ..subject = 'Your Password Recovery'
-//         ..text = 'Your password is: $password1';
-//
-//       try {
-//         final sendReport = await send(message, smtpServer);
-//         print('Message sent: ' + sendReport.toString());
-//       } on MailerException catch (e) {
-//         print('Message not sent.');
-//         for (var p in e.problems) {
-//           print('Problem: ${p.code}: ${p.msg}');
-//         }
-//       }
-//     } else {
-//       print('User not found.');
-//     }
-//   }
-// Future<void> _resetPasswordProcedure(BuildContext context) async {
-//   TextEditingController newPasswordController = TextEditingController();
-//   TextEditingController confirmPasswordController = TextEditingController();
-//
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       return AlertDialog(
-//         title: Text('Reset Password'),
-//         content: SingleChildScrollView(
-//           child: ListBody(
-//             children: <Widget>[
-//               Text('Enter your new password below.'),
-//               TextField(
-//                 controller: newPasswordController,
-//                 decoration: InputDecoration(hintText: 'New Password'),
-//                 obscureText: true,
-//               ),
-//               TextField(
-//                 controller: confirmPasswordController,
-//                 decoration: InputDecoration(hintText: 'Confirm New Password'),
-//                 obscureText: true,
-//               ),
-//             ],
-//           ),
-//         ),
-//         actions: <Widget>[
-//           TextButton(
-//             child: Text('Cancel'),
-//             onPressed: () {
-//               Navigator.of(context).pop();
-//             },
-//           ),
-//           TextButton(
-//             child: Text('Reset Password'),
-//             onPressed: () async {
-//               if (newPasswordController.text == confirmPasswordController.text && newPasswordController.text.isNotEmpty) {
-//                 // Update the password in Firestore
-//                 final firestoreInstance = FirebaseFirestore.instance;
-//                 var usersCollection = firestoreInstance.collection('users');
-//                 TextEditingController emailC = TextEditingController();
-//                 var querySnapshot = await usersCollection.where('email', isEqualTo: emailC.text.trim()).get();
-//
-//                 if (querySnapshot.docs.isNotEmpty) {
-//                   // Assuming each email has a unique document
-//                   var docId = querySnapshot.docs.first.id;
-//                   usersCollection.doc(docId).update({'password': newPasswordController.text}).then((_) {
-//                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Password reset successfully')));
-//                     Navigator.of(context).pop(); // Close the AlertDialog
-//                   }).catchError((error) {
-//                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to reset password: $error')));
-//                   });
-//                 } else {
-//                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('No user found with that email')));
-//                 }
-//               } else {
-//                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Passwords do not match or empty')));
-//               }
-//             },
-//           ),
-//         ],
-//       );
-//     },
-//   );
 }
 Future<void> _resetPasswordProcedure(BuildContext context) async {
   TextEditingController emailC = TextEditingController();
@@ -619,11 +348,9 @@ String f = '';
             child: Text('Reset'),
             onPressed: () async {
   if (newPasswordController.text == confirmPasswordController.text && newPasswordController.text.isNotEmpty) {
-//                 // Update the password in Firestore
                 final firestoreInstance = FirebaseFirestore.instance;
                 var usersCollection = firestoreInstance.collection('users');
                 QuerySnapshot querySnapshot = await users.where('username', isEqualTo: emailC.text).get();
-               // print(querySnapshot.docs.first);
                 if (querySnapshot.docs.isNotEmpty) {
                   querySnapshot.docs.forEach((doc) {
                     String docId = doc.id;
@@ -683,18 +410,15 @@ Future<void> _retrieveUsernameProcedure(BuildContext context) async {
               QuerySnapshot userQuerySnapshot = await firestoreInstance.collection('users').where('email', isEqualTo: email).get();
 
               if (userQuerySnapshot.docs.isNotEmpty) {
-                // Assuming username is stored under 'username' field
-
                 userQuerySnapshot.docs.forEach((doc) {
                   String docId = doc.id;
                   f = docId;
                 });
                 final data = userQuerySnapshot.docs.first.data() as Map<String, dynamic>;
                 String? username = data['username'] as String?;
-                // Send the username to the user's email
                 bool emailSent = await sendEmail(email, username!);
                 print(username);
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
 
                 if(emailSent) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -741,8 +465,6 @@ String f = '';
             child: Text('Retrieve'),
             onPressed: () async {
               String email = emailController.text.trim();
-
-                // Check if the email field is empty
                 if (email.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("Username field is empty")),
@@ -753,8 +475,6 @@ String f = '';
               QuerySnapshot userQuerySnapshot = await firestoreInstance.collection('users').where('username', isEqualTo: email).get();
 
                 if (userQuerySnapshot.docs.isNotEmpty) {
-                  // Assuming username is stored under 'username' field
-
                     userQuerySnapshot.docs.forEach((doc) {
                       String docId = doc.id;
                        f = docId;
@@ -789,9 +509,8 @@ String f = '';
   );
 }
 Future<bool> sendEmail(String toEmail, String body) async {
-  String username = r'knssriharshith11@gmail.com';
-  String password = r'lxwr ltym lhrz aiqf';
-print("Here");
+  String username = r'your@gmail.com';
+  String password = r'app password';
   final smtpServer = gmail(username, password);
   final message = Message()
     ..from = Address(username, 'Your App Name')
@@ -808,9 +527,8 @@ print("Here");
   }
 }
 Future<bool> sendEmail1(String toEmail, String body, String username1) async {
-  String username = r'knssriharshith11@gmail.com';
-  String password = r'lxwr ltym lhrz aiqf';
-  print("Here");
+  String username = r'your@gmail.com';
+  String password = r'app password';
   final smtpServer = gmail(username, password);
   final message = Message()
     ..from = Address(username, 'Your App Name')

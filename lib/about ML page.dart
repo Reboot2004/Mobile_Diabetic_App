@@ -241,18 +241,6 @@ bool _isDark = true;
                                 ),
                             ),
                         ),
-                        // Container(
-                        //   width: 500,
-                        //   color: Colors.white,
-                        //   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        //   child: TextButton(
-                        //     onPressed: () {},
-                        //     child: Text(
-                        //       "Thermography DL",
-                        //       style: TextStyle(color: Colors.black, fontSize: 18),
-                        //     ),
-                        //   ),
-                        // ),
                         Container(
                             width: 200,
                             color: Colors.transparent,

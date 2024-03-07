@@ -88,18 +88,6 @@ class _UserPredictionsPageState extends State<UserPredictionsPage> {
                   ),
                 ),
               ),
-              // Container(
-              //   width: 500,
-              //   color: Colors.white,
-              //   margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              //   child: TextButton(
-              //     onPressed: () {},
-              //     child: Text(
-              //       "Thermography DL",
-              //       style: TextStyle(color: Colors.black, fontSize: 18),
-              //     ),
-              //   ),
-              // ),
               Container(
                 width: 200,
                 color: Colors.transparent,
@@ -216,7 +204,6 @@ class _UserPredictionsPageState extends State<UserPredictionsPage> {
                           var modelNames = inputData['Model'];
                           var predictionResult = prediction['predictionResult']['prediction'];
                           var groundTruth = prediction['Ground Truth'];
-
                           List<Widget> inputDataWidgets = inputData.entries.map((entry) {
                             return Text('${entry.key}: ${entry.value}', style: const TextStyle(fontSize: 16));
                           }).toList();

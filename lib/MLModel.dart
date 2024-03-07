@@ -813,7 +813,6 @@ class MLModel extends StatefulWidget {
   @override
   _MLModelState createState() => _MLModelState(username: username);
 }
-
 class _MLModelState extends State<MLModel> {
   String selectedDataset = '-Select-'; // Default selected dataset
   List<String> datasetOptions = ['-Select-',
