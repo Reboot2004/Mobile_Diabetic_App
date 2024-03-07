@@ -1,0 +1,505 @@
+/*
+import 'dart:math';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
+final CollectionReference users = FirebaseFirestore.instance.collection('users');
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: LoginPage(),
+    );
+  }
+}
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController otpController = TextEditingController();
+
+  String phoneNumber = "";
+  String verificationId = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Welcome to the Login Page',
+              style: TextStyle(fontSize: 20),
+            ),
+            TextField(
+              controller: usernameController,
+              decoration: InputDecoration(
+                labelText: 'Username',
+              ),
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: InputDecoration(
+                labelText: 'Password',
+              ),
+              obscureText: true,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                String username = usernameController.text;
+                String password = passwordController.text;
+
+                QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+                    .collection('users')
+                    .where('username', isEqualTo: username)
+                    .where('password', isEqualTo: password)
+                    .get();
+
+                if (querySnapshot.docs.isNotEmpty) {
+                  // Successfully logged in, navigate to RegistrationPage for OTP verification
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RegistrationPage(
+                        phoneNumber: phoneNumber,
+                        onVerificationSuccess: () {
+                          // Additional actions after OTP verification success
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Registration Successful'),
+                                content: Text(
+                                  'Registration successful. Please check your email for verification and OTP for phone number verification.',
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => LoginPage()),
+                                      );
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Sign In Failed'),
+                        content: Text('Invalid username or password. Please try again.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+              child: Text('Sign In'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegistrationPage(onVerificationSuccess: () {  },),
+                  ),
+                );
+              },
+              child: Text('Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class RegistrationPage extends StatefulWidget {
+  final String phoneNumber;
+  final VoidCallback onVerificationSuccess;
+
+  RegistrationPage({
+    this.phoneNumber = "",
+    required this.onVerificationSuccess,
+  });
+
+  @override
+  _RegistrationPageState createState() => _RegistrationPageState();
+}
+class _RegistrationPageState extends State<RegistrationPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final CollectionReference usersCollection = FirebaseFirestore.instance.collection('users');
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  String phoneNumber = "";
+  String verificationId = "";
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Registration Page'),
+      ),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Welcome to the Registration Page',
+                style: TextStyle(fontSize: 20),
+              ),
+              TextFormField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                ),
+                validator: (value) => _validateNotEmpty(value, 'Username'),
+              ),
+              TextFormField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
+                validator: (value) => _validateEmail(value),
+              ),
+              TextFormField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                obscureText: true,
+                validator: (value) => _validatePassword(value),
+              ),
+              TextFormField(
+                controller: confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                ),
+                obscureText: true,
+                validator: (value) => _validateConfirmPassword(value),
+              ),
+              InternationalPhoneNumberInput(
+                onInputChanged: (PhoneNumber number) {
+                  phoneNumber = number.phoneNumber!;
+                },
+                inputDecoration: InputDecoration(labelText: "Phone Number"),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    bool userExists = await checkUserExists(
+                      usernameController.text,
+                      emailController.text,
+                    );
+                    if (!userExists) {
+                      // Manually send OTP to the provided phone number
+                      await sendOtp(phoneNumber);
+
+                      // Navigate to OTP verification page
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtpVerificationPage(
+                            verificationId: verificationId,
+                            phoneNumber: phoneNumber,
+                            onVerificationSuccess: widget.onVerificationSuccess,
+                          ),
+                        ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Registration Failed'),
+                            content: Text('User with the same username or email already exists.'),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  }
+                },
+                child: Text('Register'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  // Manually send OTP to the provided phone number
+                  await sendOtp(phoneNumber);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OtpVerificationPage(verificationId: '', phoneNumber: '', onVerificationSuccess: () {  },)),
+                  );
+                },
+                child: Text('Send OTP Manually'),
+
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  Future<bool> checkUserExists(String username, String email) async {
+    QuerySnapshot usernameQuery = await usersCollection.where('username', isEqualTo: username).get();
+    QuerySnapshot emailQuery = await usersCollection.where('email', isEqualTo: email).get();
+
+    return usernameQuery.docs.isNotEmpty || emailQuery.docs.isNotEmpty;
+  }
+  Future<void> registerUser(String email, String password, String username, String phoneNumber) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      await usersCollection.doc(userCredential.user!.uid).set({
+        'username': username,
+        'email': email,
+        'phoneNumber': phoneNumber,
+        'password' : password
+      });
+      //await userCredential.user!.sendEmailVerification();
+      await sendOtp(phoneNumber);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OtpVerificationPage(
+            verificationId: verificationId,
+            phoneNumber: phoneNumber,
+            onVerificationSuccess: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Registration Successful'),
+                    content: Text(
+                      'Registration successful. Please check your email for verification and OTP for phone number verification.',
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginPage()),
+                          );
+                        },
+                        child: Text('OK'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      );
+    } catch (e) {
+      print("Error during registration: $e");
+    }
+  }
+  Future<void> sendOtp(String phoneNumber) async {
+    try {
+      PhoneVerificationCompleted verificationCompleted =
+          (PhoneAuthCredential phoneAuthCredential) async {
+        await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
+      };
+      PhoneVerificationFailed verificationFailed =
+          (FirebaseAuthException authException) {
+        print('Phone number verification failed. Code: ${authException.code}. Message: ${authException.message}');
+      };
+      PhoneCodeSent codeSent =
+          (String verificationId, [int? forceResendingToken]) async {
+        print('Please check your phone for the verification code.');
+        this.verificationId = verificationId;
+      };
+      PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+          (String verificationId) {
+        print("Time out");
+      };
+      await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout,
+        timeout: Duration(seconds: 60),
+      );
+    } catch (e) {
+      print("Error sending OTP: $e");
+    }
+  }
+  Future<void> sendOtpToPhone(String phoneNumber) async {
+    String otp = _generateOtp();
+    print("Sending OTP to $phoneNumber: $otp");
+    this.verificationId = "test_verification_id";
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OtpVerificationPage(
+          verificationId: verificationId,
+          phoneNumber: phoneNumber,
+          onVerificationSuccess: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Phone Verification Successful'),
+                  content: Text('Your phone number has been successfully verified.'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('OK'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+  String _generateOtp() {
+    Random random = Random();
+    int otp = random.nextInt(900000) + 100000;
+    return otp.toString();
+  }
+  String? _validateNotEmpty(String? value, String fieldName) {
+    if (value?.isEmpty ?? true) {
+      return '$fieldName is required';
+    }
+    return null;
+  }
+  String? _validateEmail(String? value) {
+    if (value?.isEmpty ?? true) {
+      return 'Email is required';
+    }
+    if (!(value?.contains('@') ?? false)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+  String? _validatePassword(String? value) {
+    if (value?.isEmpty ?? true) {
+      return 'Password is required';
+    }
+    if (value!.length < 6) {
+      return 'Password must be at least 6 characters';
+    }
+    return null;
+  }
+  String? _validateConfirmPassword(String? value) {
+    if (value?.isEmpty ?? true) {
+      return 'Please confirm your password';
+    }
+    if (value != passwordController.text) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
+}
+class OtpVerificationPage extends StatefulWidget {
+  final String verificationId;
+  final String phoneNumber;
+  final VoidCallback onVerificationSuccess;
+  OtpVerificationPage({
+    required this.verificationId,
+    required this.phoneNumber,
+    required this.onVerificationSuccess,
+  });
+  @override
+  _OtpVerificationPageState createState() => _OtpVerificationPageState();
+}
+class _OtpVerificationPageState extends State<OtpVerificationPage> {
+  TextEditingController otpController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('OTP Verification'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Enter the OTP sent to ${widget.phoneNumber}',
+              style: TextStyle(fontSize: 18),
+            ),
+            TextField(
+              controller: otpController,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                labelText: 'OTP',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await verifyOtp(otpController.text, widget.verificationId);
+              },
+              child: Text('Verify OTP'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Future<void> verifyOtp(String enteredOtp, String verificationId) async {
+    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: verificationId,
+      smsCode: enteredOtp,
+    );
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      widget.onVerificationSuccess();
+    } catch (e) {
+      print("Error during OTP verification: $e");
+        }
+    }
+}
+*/

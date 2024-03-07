@@ -1,0 +1,106 @@
+{
+  "project_info": {
+    "project_number": "308762689614",
+    "firebase_url": "https://test1-2-4528c-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "test1-2-4528c",
+    "storage_bucket": "test1-2-4528c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308762689614:android:91998841ede34c8542831f",
+        "android_client_info": {
+          "package_name": "com.example.test1_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo97kJ2pejC-Noc0eS3Vm4dr7NUMkQUZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308762689614:android:86b05f6ad773259c42831f",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo97kJ2pejC-Noc0eS3Vm4dr7NUMkQUZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308762689614:android:c7f027a7ab50e32d42831f",
+        "android_client_info": {
+          "package_name": "com.example.untitled1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo97kJ2pejC-Noc0eS3Vm4dr7NUMkQUZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308762689614:android:74d616cd7c778d7342831f",
+        "android_client_info": {
+          "package_name": "com.example.untitled3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo97kJ2pejC-Noc0eS3Vm4dr7NUMkQUZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308762689614:android:26842a0690eef7c042831f",
+        "android_client_info": {
+          "package_name": "com.projectschool.mobilediabeticapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo97kJ2pejC-Noc0eS3Vm4dr7NUMkQUZc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

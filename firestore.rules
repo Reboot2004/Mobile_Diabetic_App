@@ -1,0 +1,14 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /users/{userId} {
+      allow read, write: if request.auth != null;
+      allow read, write: if request.auth.uid == username;
+    }
+    // Warning: This rule is overly permissive and should only be used for testing!
+    match /users/{userId}/{document =**}/{prediction} {
+      allow read, write: if true;
+    }
+  }
+}
