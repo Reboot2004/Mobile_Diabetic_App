@@ -5,7 +5,8 @@ A few resources to get you started if this is your first Flutter project:
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 - [Knowledge about Flutter Packages](https://pub.dev)
 - [Dataset Used for ML Implementation](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
-- [Dataset used for DL Implementation & Knowledge Article]
+- [Dataset used for DL Implementation](https://www.kaggle.com/c/diabetic-retinopathy-detection/data)
+- [Knowledge article for Diabetic Retinopathy](https://www.tensorflow.org/datasets/catalog/diabetic_retinopathy_detection)
 -     
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
