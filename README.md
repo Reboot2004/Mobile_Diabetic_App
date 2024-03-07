@@ -7,6 +7,9 @@ A few resources to get you started if this is your first Flutter project:
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 - [Knowledge about Flutter Packages](https://pub.dev)
+- [Dataset Used for ML Implementation](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+- [Dataset used for DL Implementation & Knowledge Article]
+-     
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
@@ -19,6 +22,7 @@ Certainly! Below is a sample GitHub README for your Mobile Diabetic App. Feel fr
 ## Overview
 
 The **Mobile Diabetic App** is a comprehensive solution for managing diabetes, providing users with tools to monitor blood sugar levels, track medications, and receive personalized insights. The app is built using **Flutter** and **Dart**, making it cross-platform and efficient.
+## Dataset:
 
 ## Features
 
@@ -45,16 +49,19 @@ The **Mobile Diabetic App** is a comprehensive solution for managing diabetes, p
     git clone https://github.com/your-username/mobile-diabetic-app.git
     ```
 
-2. Install dependencies:
+2. Remember to install all the necessary python and dart dependencies:
     ```bash
     cd mobile-diabetic-app
     flutter pub get
     ```
-
 3. Run the app:
     ```bash
     flutter run
     ```
+4. Run Backend Prediction Server:
+   '''bash
+   app_rfc.py & 13.py contain the ML Backend Prediciton Server & DL Backend Prediction Server Respectively.
+   '''
 ## Contributing
 
 Contributions are welcome! If you'd like to improve the app or add new features, feel free to submit a pull request.
