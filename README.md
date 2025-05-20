@@ -37,39 +37,9 @@ The app incorporates specialized machine learning and deep learning models to pr
      - Other relevant health metrics
 
 2. **Retinopathy Detection Model**:
-   - Uses computer vision and deep learning to analyze retinal images
+   - Uses deep learning to analyze retinal images
    - Detects and classifies stages of diabetic retinopathy
    - Provides early warning for vision-threatening complications
-
-## Project Structure
-
-```
-Mobile_Diabetic_App/
-├── android/               # Android-specific files
-├── ios/                   # iOS-specific files
-├── lib/                   # Main Dart source code
-│   ├── main.dart          # Application entry point
-│   ├── models/            # Data models
-│   ├── screens/           # UI screens
-│   │   ├── home/          # Home screen components
-│   │   ├── prediction/    # Diabetes prediction screens
-│   │   ├── retinopathy/   # Retinopathy detection screens
-│   │   └── profile/       # User profile screens
-│   ├── services/          # Backend services
-│   │   ├── api/           # API communication
-│   │   └── ml/            # ML model integration
-│   ├── utils/             # Utility functions
-│   └── widgets/           # Reusable UI components
-├── ml/                    # Python ML/DL model files
-│   ├── diabetes_model/    # Diabetes prediction models
-│   └── retinopathy_model/ # Retinopathy detection models
-├── assets/                # Images, fonts, and other static resources
-│   ├── images/            # Image assets
-│   └── model_files/       # Trained model files
-├── test/                  # Test files
-├── pubspec.yaml           # Flutter package dependencies
-└── README.md              # Project documentation
-```
 
 ## Installation
 
