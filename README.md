@@ -1,62 +1,113 @@
-## Getting Started
-This project is a starting point for a Flutter application.
-A few resources to get you started if this is your first Flutter project:
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-- [Knowledge about Flutter Packages](https://pub.dev)
-- [Dataset Used for ML Implementation](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
-- [Dataset used for DL Implementation](https://www.kaggle.com/c/diabetic-retinopathy-detection/data)
-- [Knowledge article for Diabetic Retinopathy](https://www.tensorflow.org/datasets/catalog/diabetic_retinopathy_detection)
--     
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-Certainly! Below is a sample GitHub README for your Mobile Diabetic App. Feel free to customize it further based on your project specifics:
----
 # Mobile Diabetic App
+
+![Diabetes Prediction App](https://img.shields.io/badge/Flutter-Diabetes%20Prediction-blue)
+![ML & DL](https://img.shields.io/badge/ML%20%26%20DL-Enabled-green)
+
+A mobile application built with Flutter that utilizes Machine Learning and Deep Learning techniques to predict diabetes risk and detect diabetic retinopathy from retinal images.
+
 ## Overview
 
-The **Mobile Diabetic App** is a comprehensive solution for managing diabetes, providing users with tools to monitor blood sugar levels, track medications, and receive personalized insights. The app is built using **Flutter** and **Dart**, making it cross-platform and efficient.
-## Dataset:
+The Mobile Diabetic App is designed to help users assess their risk of diabetes through advanced predictive models and monitor for diabetic retinopathy complications. By leveraging both ML and DL algorithms, the app provides personalized risk assessments based on user-provided health data and retinal scans.
+
+## Technologies Used
+
+- **Frontend**: Flutter/Dart (94.1%)
+- **Backend**: Python (5.5%) for ML/DL models
+- **Other**: Configuration and assets (0.4%)
 
 ## Features
 
-1. **User Interface (UI)**:
-    - The app boasts an intuitive and user-friendly interface designed with Flutter widgets. Users can easily navigate through different sections, view charts, and input data.
-2. **Machine Learning Models**:
-    - We've integrated several machine learning models to enhance the app's functionality:
-        - **Random Forest**: Predicts blood sugar levels based on historical data.
-        - **Decision Trees**: Assists in identifying patterns and correlations.
-        - **Support Vector Machines (SVM)**: Classifies data points.
-        - **XGBoost**: Boosted decision trees for accurate predictions.
-3. **Deep Learning Models for Diabetic Retinopathy**:
-    - Our app includes deep learning models trained to detect diabetic retinopathy from retinal images. Users can upload retinal images, and the app will provide a risk assessment.
-4. **Firebase Integration**:
-    - We leverage Firebase for seamless authentication and secure storage of user data. Firebase Authentication ensures user privacy, while Firebase Cloud Firestore stores relevant information.
+- **Diabetes Risk Prediction**: Input health parameters to receive a diabetes risk assessment
+- **Diabetic Retinopathy Detection**: Analyze retinal images to detect signs of diabetic retinopathy
+- **User-Friendly Interface**: Intuitive design for easy navigation and data input
+- **Personalized Health Insights**: Receive tailored feedback based on your health metrics
+- **Secure Data Handling**: Your health information remains private and secure
+
+## Machine Learning Models
+
+The app incorporates specialized machine learning and deep learning models to provide accurate predictions and detection:
+
+1. **Diabetes Prediction Model**:
+   - Analyzes various health parameters including:
+     - Blood glucose levels
+     - BMI (Body Mass Index)
+     - Blood pressure
+     - Age
+     - Family history of diabetes
+     - Other relevant health metrics
+
+2. **Retinopathy Detection Model**:
+   - Uses computer vision and deep learning to analyze retinal images
+   - Detects and classifies stages of diabetic retinopathy
+   - Provides early warning for vision-threatening complications
+
+## Project Structure
+
+```
+Mobile_Diabetic_App/
+├── android/               # Android-specific files
+├── ios/                   # iOS-specific files
+├── lib/                   # Main Dart source code
+│   ├── main.dart          # Application entry point
+│   ├── models/            # Data models
+│   ├── screens/           # UI screens
+│   │   ├── home/          # Home screen components
+│   │   ├── prediction/    # Diabetes prediction screens
+│   │   ├── retinopathy/   # Retinopathy detection screens
+│   │   └── profile/       # User profile screens
+│   ├── services/          # Backend services
+│   │   ├── api/           # API communication
+│   │   └── ml/            # ML model integration
+│   ├── utils/             # Utility functions
+│   └── widgets/           # Reusable UI components
+├── ml/                    # Python ML/DL model files
+│   ├── diabetes_model/    # Diabetes prediction models
+│   └── retinopathy_model/ # Retinopathy detection models
+├── assets/                # Images, fonts, and other static resources
+│   ├── images/            # Image assets
+│   └── model_files/       # Trained model files
+├── test/                  # Test files
+├── pubspec.yaml           # Flutter package dependencies
+└── README.md              # Project documentation
+```
+
 ## Installation
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/your-username/mobile-diabetic-app.git
-    ```
 
-2. Install dependencies:
-2. Remember to install all the necessary python and dart dependencies:
-    ```bash
-    cd mobile-diabetic-app
-    flutter pub get
-    ```
+1. Ensure you have Flutter installed on your system
+2. Clone the repository:
+   ```
+   git clone https://github.com/Reboot2004/Mobile_Diabetic_App.git
+   ```
+3. Navigate to the project directory:
+   ```
+   cd Mobile_Diabetic_App
+   ```
+4. Install dependencies:
+   ```
+   flutter pub get
+   ```
+5. Run the app:
+   ```
+   flutter run
+   ```
 
-3. Run the app:
-    ```bash
-    flutter run
-    ```
-4. Run Backend Prediction Server:
-   '''bash
-   app_rfc.py & 13.py contain the ML Backend Prediciton Server & DL Backend Prediction Server Respectively.
-   '''
+## Development Status
+
+This application is currently under active development. Future updates will include:
+- Enhanced prediction accuracy
+- Additional health metrics tracking
+- Integration with healthcare provider systems
+- More advanced retinopathy staging and monitoring
+
 ## Contributing
 
-Contributions are welcome! If you'd like to improve the app or add new features, feel free to submit a pull request.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+This project is proprietary and is not licensed for redistribution without explicit permission.
+
 ---
+
+Developed by [Reboot2004](https://github.com/Reboot2004)
+Last updated: 2025-05-20
